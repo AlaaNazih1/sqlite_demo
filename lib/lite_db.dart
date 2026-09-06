@@ -20,9 +20,21 @@ class LiteDB {
       onCreate: (Database db, int version) async {
         // When creating the db, create the table
         await db.execute('''
-              CREATE TABLE PERSON (id INTEGER AUTOINCREMENT PRIMARY KEY, name TEXT NOT NULL, age INTEGER);
-              CREATE TABLE ACCOUNT (id INTEGER AUTOINCREMENT PRIMARY KEY,PERSON_ID INTEGER NOT NULL ,ACCOUNT INTEGER NOT NULL, VALUE REAL);
-          ''');
+          CREATE TABLE PERSON (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            age INTEGER
+          )
+        ''');
+
+        await db.execute('''
+          CREATE TABLE ACCOUNT (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            PERSON_ID INTEGER NOT NULL,
+            ACCOUNT INTEGER NOT NULL,
+            VALUE REAL
+          )
+        ''');
       },
     );
 

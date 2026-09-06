@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqlite_demo/helper/db_helper.dart';
 import 'package:sqlite_demo/models/person.dart';
 import 'package:sqlite_demo/screens/person_details.dart';
 
@@ -10,22 +11,26 @@ class PersonsList extends StatefulWidget {
 }
 
 class _PersonsListState extends State<PersonsList> {
-
-  List<Person>? personList;
+ DbHelper dbHelper = DbHelper();
+  List<Person> personList = [];
   int count = 0;
 
-  void updateListView() {
-    personList = [];
-    personList?.add(Person(id: 1, name: 'Ahmed', age: 30));
-    personList?.add(Person(id: 2, name: 'Mohamed', age: 31));
-    personList?.add(Person(id: 3, name: 'Salah', age: 32));
-  }
+  Future<void> updateListView() async {
+    final value = await dbHelper.getAllPersons();
 
+    setState(() {
+      personList = value;
+      count = value.length;
+    });
+  }
+@override
+  void initState() {
+    super.initState();
+    updateListView();
+  }
   @override
   Widget build(BuildContext context) {
-    if (personList == null) {
-      updateListView();
-    }
+ 
 
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +50,7 @@ class _PersonsListState extends State<PersonsList> {
 
   ListView getNoteListView(){
     return ListView.builder(
-      itemCount: personList!.length,
+      itemCount: personList.length,
       itemBuilder: (context, position){
         return Card(
           shape: RoundedRectangleBorder(
@@ -57,14 +62,14 @@ class _PersonsListState extends State<PersonsList> {
             leading: CircleAvatar(
                 child: Image.asset('assets/person.png'),
             ),
-            title: Text(personList![position].name,
+            title: Text(personList[position].name,
               style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 25.0
               ),
             ),
-            subtitle: Text(personList![position].age.toString(),
+            subtitle: Text(personList[position].age.toString(),
               style: const TextStyle(
                   color: Colors.white
               ),
@@ -72,7 +77,7 @@ class _PersonsListState extends State<PersonsList> {
             trailing: GestureDetector(
               child: const Icon(Icons.info, color: Colors.white,),
               onTap: (){
-                navigateToDetail(personList![position]);
+                navigateToDetail(personList[position]);
               },
             ),
           ),
