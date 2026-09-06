@@ -28,4 +28,29 @@ class LiteDB {
 
     return database;
   }
+
+  inQuery(String query) async {
+    Database? db = await database;
+    //get all persons
+    List<Map> list = await db.rawQuery(query);
+    return list;
+  }
+
+  insert(String query) async {
+    Database? db = await database;
+  int count=  await db.rawInsert(query);
+  return count;
+  }
+
+  update(String query) async {
+    Database? db = await database;
+  int count=  await db.rawUpdate(query);
+  return count;
+  }
+
+  delete(String query) async {
+    Database? db = await database;
+    int count=  await db.rawDelete(query);
+    return count;
+  }
 }
