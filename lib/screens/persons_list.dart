@@ -11,7 +11,7 @@ class PersonsList extends StatefulWidget {
 }
 
 class _PersonsListState extends State<PersonsList> {
- DbHelper dbHelper = DbHelper();
+  DbHelper dbHelper = DbHelper();
   List<Person> personList = [];
   int count = 0;
 
@@ -23,18 +23,21 @@ class _PersonsListState extends State<PersonsList> {
       count = value.length;
     });
   }
-@override
+
+  @override
   void initState() {
     super.initState();
     updateListView();
   }
+
   @override
   Widget build(BuildContext context) {
- 
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Persons App", style: TextStyle(color: Colors.white),),
+        title: const Text(
+          "My Persons App",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.deepPurple,
       ),
       body: getNoteListView(),
@@ -48,10 +51,10 @@ class _PersonsListState extends State<PersonsList> {
     );
   }
 
-  ListView getNoteListView(){
+  ListView getNoteListView() {
     return ListView.builder(
       itemCount: personList.length,
-      itemBuilder: (context, position){
+      itemBuilder: (context, position) {
         return Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
@@ -59,24 +62,22 @@ class _PersonsListState extends State<PersonsList> {
           color: Colors.deepPurple,
           elevation: 4.0,
           child: ListTile(
-            leading: CircleAvatar(
-                child: Image.asset('assets/person.png'),
-            ),
-            title: Text(personList[position].name,
+            leading: CircleAvatar(child: Image.asset('assets/person.png')),
+            title: Text(
+              personList[position].name,
               style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 25.0,
               ),
             ),
-            subtitle: Text(personList[position].age.toString(),
-              style: const TextStyle(
-                  color: Colors.white
-              ),
+            subtitle: Text(
+              '${personList[position].age}\n${personList[position].salary}',
+              style: const TextStyle(color: Colors.white),
             ),
             trailing: GestureDetector(
-              child: const Icon(Icons.info, color: Colors.white,),
-              onTap: (){
+              child: const Icon(Icons.info, color: Colors.white),
+              onTap: () {
                 navigateToDetail(personList[position]);
               },
             ),
@@ -86,15 +87,18 @@ class _PersonsListState extends State<PersonsList> {
     );
   }
 
-  void navigateToDetail(Person person) async{
-    bool result = await Navigator.push(context, MaterialPageRoute(
-        builder: (context){
+  void navigateToDetail(Person person) async {
+    bool result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
           return PersonDetails(person: person);
-        }
-    ));
-    if(result == true){
+        },
+      ),
+    );
+    if (result == true) {
       updateListView();
-    }else if(result == false){
+    } else if (result == false) {
       const Text("No Notes to Show");
     }
   }

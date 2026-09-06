@@ -16,7 +16,7 @@ class LiteDB {
 
     Database database = await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: (Database db, int version) async {
         // When creating the db, create the table
         await db.execute('''
@@ -35,6 +35,14 @@ class LiteDB {
             VALUE REAL
           )
         ''');
+      },
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        // When upgrading the db, create the table
+        if (oldVersion < 2) {
+          await db.execute('''
+            ALTER TABLE PERSON ADD COLUMN salary REAL  NULL DEFAULT 0.0
+          ''');
+        }
       },
     );
 

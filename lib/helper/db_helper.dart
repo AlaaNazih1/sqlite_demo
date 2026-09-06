@@ -13,13 +13,13 @@ class DbHelper  extends LiteDB{
   }
 
  Future<int> insertNewPerson(Person person) async {
-    String sql = "INSERT INTO PERSON (name, age) VALUES ('${person.name}', ${person.age})";
+    String sql = "INSERT INTO PERSON (name, age, salary) VALUES ('${person.name}', ${person.age}, ${person.salary})";
     int result = await insert(sql);
     return result;
   }
 
   Future<int> updatePerson(Person person) async {
-    String sql = "UPDATE PERSON SET name = '${person.name}', age = ${person.age} WHERE id = ${person.id}";
+    String sql = "UPDATE PERSON SET name = '${person.name}', age = ${person.age}, salary = ${person.salary} WHERE id = ${person.id}";
     int result = await update(sql);
     return result;
   }

@@ -15,12 +15,13 @@ class _PersonDetailsState extends State<PersonDetails> {
   DbHelper dbHelper = DbHelper();
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
+  TextEditingController salaryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     nameController.text = widget.person.name;
     ageController.text = widget.person.age.toString();
-
+    salaryController.text = widget.person.salary.toString();
     return Scaffold(
       backgroundColor: Colors.cyanAccent,
       appBar: AppBar(
@@ -69,6 +70,20 @@ class _PersonDetailsState extends State<PersonDetails> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 15.0,
+                  bottom: 15.0,
+                  left: 15.0,
+                ),
+                child: TextField(
+                  controller: salaryController,
+                  decoration: const InputDecoration(
+                    labelText: 'salary',
+                    icon: Icon(Icons.attach_money),
+                  ),
+                ),
+              ),
               // Fourth Element
               Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -86,6 +101,7 @@ class _PersonDetailsState extends State<PersonDetails> {
                         onPressed: () {
                           widget.person.name = nameController.text;
                           widget.person.age = int.parse(ageController.text);
+                          widget.person.salary = double.parse(salaryController.text);
                           _saveData(widget.person);
                         },
                       ),
