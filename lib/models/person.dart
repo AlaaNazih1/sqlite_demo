@@ -1,0 +1,26 @@
+
+
+class Person {
+
+  final int id;
+  final String name;
+  final int age;
+
+  Person({required this.id,required this.name,required this.age});
+
+  factory Person.getNewEmpty() {
+    return Person(
+        id:  0,
+        name: '',
+        age: 0
+    );
+  }
+
+  factory Person.fromJson(Map<String, dynamic> json) {
+    return Person(
+        id: json['id']?? 0,
+        name: json['name']?? '',
+        age: json['age']?? 0
+    );
+  }
+}
