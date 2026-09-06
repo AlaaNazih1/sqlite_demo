@@ -100,7 +100,9 @@ class _PersonDetailsState extends State<PersonDetails> {
                           padding: const EdgeInsets.all(8.0),
                         ),
                         child: const Text('Delete', textScaleFactor: 1.5),
-                        onPressed: () {},
+                        onPressed: () {
+                          _deleteData(widget.person);
+                        },
                       ),
                     ),
                   ],
@@ -116,10 +118,20 @@ class _PersonDetailsState extends State<PersonDetails> {
   _saveData(Person person) async {
     if (person.id == 0) {
       await dbHelper.insertNewPerson(person);
+    }else {
+      await dbHelper.updatePerson(person);
     }
     moveToLastScreen();
   }
-
+  
+  _deleteData(Person person) async {
+    if (person.id == 0) {
+      return;
+    }else {
+      await dbHelper.deletePerson(person);
+    }
+    moveToLastScreen();
+  }
   void moveToLastScreen() {
     Navigator.pop(context, true);
   }

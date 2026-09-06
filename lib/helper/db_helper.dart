@@ -17,4 +17,16 @@ class DbHelper  extends LiteDB{
     int result = await insert(sql);
     return result;
   }
+
+  Future<int> updatePerson(Person person) async {
+    String sql = "UPDATE PERSON SET name = '${person.name}', age = ${person.age} WHERE id = ${person.id}";
+    int result = await update(sql);
+    return result;
+  }
+
+  Future<int> deletePerson(Person person) async {
+    String sql = "DELETE FROM PERSON WHERE id = ${person.id}";
+    int result = await delete(sql);
+    return result;
+  }
 }
